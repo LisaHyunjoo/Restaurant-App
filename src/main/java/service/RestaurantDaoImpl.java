@@ -101,27 +101,7 @@ public class RestaurantDaoImpl implements RestaurantDao {
 
     @Override
     public Restaurant retrieveRestaurantByName(String rName) {
-//        final String GET_RESTAURANT_BY_NAME_SQL = "SELECT * FROM restaurants WHERE restaurants_name = ?";
-//        try (Connection connection = JDBConnection.getConnection()) {
-//            PreparedStatement preparedStatement = connection.prepareStatement(GET_RESTAURANT_BY_NAME_SQL);
-//
-//            preparedStatement.setString(1, rName);
-//            ResultSet resultSet = preparedStatement.executeQuery();
-//
-//
-//            while (resultSet.next()) {
-//                int restaurantId = resultSet.getInt("restaurant_id");
-//                String restaurantName = resultSet.getString("restaurants_name");
-//                String restaurantAddress = resultSet.getString("restaurants_address");
-//                int restaurantRate = resultSet.getInt("restaurants_rate");
-//                int restaurantPhoneNumber = resultSet.getInt("restaurants_phoneNumber");
-//                Restaurant r = new Restaurant(restaurantId, restaurantName, restaurantAddress, restaurantRate, restaurantPhoneNumber);
-//                return r;
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return null;
+
         final String GET_RESTAURANT_BY_NAME_SQL = "SELECT * FROM restaurants WHERE restaurants_name = ?";
 
         try(Connection connection = JDBConnection.getConnection();
