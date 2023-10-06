@@ -33,21 +33,6 @@ public class RestaurantDaoImpl implements RestaurantDao {
     }
 
     @Override
-    public void updateRestaurant(Restaurant restaurant) {
-
-    }
-
-    @Override
-    public void deleteRestaurant(int restaurant_id) {
-
-    }
-
-    @Override
-    public Restaurant getRestauranttById(int restaurant_id) {
-        return null;
-    }
-
-    @Override
     public List<Restaurant> getAllRestaurant() {
         final String GET_ALL_RESTAURANTS_SQL = "SELECT * FROM restaurants";
         List<Restaurant> restaurants = new ArrayList<>();
@@ -81,10 +66,8 @@ public class RestaurantDaoImpl implements RestaurantDao {
         } catch (SQLException e) {
             e.printStackTrace();  // Handle the exception as needed in your application
         }
-
         return false;
     }
-
 
     public Restaurant extractRestaurantFromResultSet(ResultSet resultSet) throws SQLException {
         int restaurantId = resultSet.getInt("restaurant_id");
@@ -93,11 +76,9 @@ public class RestaurantDaoImpl implements RestaurantDao {
         int restaurantRate = resultSet.getInt("restaurants_rate");
         int restaurantPhoneNumber = resultSet.getInt("restaurants_phoneNumber");
 
-//        return new Restaurant(restaurantId, restaurantName, restaurantAddress, restaurantRate, restaurantPhoneNumber);
         Restaurant r = new Restaurant(restaurantId, restaurantName, restaurantAddress, restaurantRate, restaurantPhoneNumber);
         return r;
     }
-
 
     @Override
     public Restaurant retrieveRestaurantByName(String rName) {
@@ -115,7 +96,58 @@ public class RestaurantDaoImpl implements RestaurantDao {
         } catch (SQLException e){
             e.printStackTrace();
         }
-
         return null;
     }
+
+
+    @Override
+    public Restaurant getRestaurantById(int rId) {
+        final String GET_RESTAURANT_BY_ID_SQL = "SELECT * FROM restaurants WHERE restaurant_id = ?";
+
+        try (Connection connection = JDBConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(GET_RESTAURANT_BY_ID_SQL)) {
+
+            preparedStatement.setInt(1, rId);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return extractRestaurantFromResultSet(resultSet);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();  // Handle the exception as needed in your application
+        }
+        return null;
+    }
+
+    @Override
+    public void deleteRestaurant(int r_id) {
+        final String DELETE_RESTAURANT_SQL = "DELETE FROM restaurants WHERE restaurant_id = ?";
+        try(Connection connection = JDBConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(DELETE_RESTAURANT_SQL)){
+            preparedStatement.setInt(1, r_id);
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void updateRestaurant(Restaurant restaurant) {
+        final String UPDATE_RESTAURANT_SQL = "UPDATE restaurants SET restaurants_name = ?, restaurants_address = ?, restaurants_rate = ?, restaurants_phoneNumber = ? WHERE restaurant_id = ?";
+
+        try(Connection connection = JDBConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_RESTAURANT_SQL)){
+            preparedStatement.setString(1, restaurant.getRestaurantName());
+            preparedStatement.setString(2, restaurant.getRestaurantAddress());
+            preparedStatement.setInt(3, restaurant.getRestaurantRate());
+            preparedStatement.setInt(4, restaurant.getPhoneNumber());
+            preparedStatement.setInt(5, restaurant.getRestaurantID());
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
 }

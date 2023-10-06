@@ -31,11 +31,11 @@ public class RestaurantApp {
                 case 3:
                     getRestaurantByName();
                     break;
-//                case 4:
-//                    updateRestaurant();
-//                    break;
+                case 4:
+                    updateRestaurant();
+                    break;
                 case 5:
-//                    removeRestaurant();
+                    removeRestaurant();
                     break;
                 case 6:
                     System.out.println("Goodbye!");
@@ -44,7 +44,6 @@ public class RestaurantApp {
                     System.out.println("Invalid choice. Please try again.");
             }
         }
-
     }
 
     private static void displayMenu() {
@@ -99,6 +98,67 @@ public class RestaurantApp {
         String restaurantName = UserInput.getStringInput();
         Restaurant r = restaurantDao.retrieveRestaurantByName(restaurantName);
         System.out.println(r);
+    }
+
+    private static void removeRestaurant() {
+        System.out.print("Enter the restaurant ID to remove: ");
+        int rId = UserInput.getIntInput();
+        //scanner.nextLine();  // Consume newline character
+
+        Restaurant existingRestaurant = restaurantDao.getRestaurantById(rId);
+        if (existingRestaurant == null) {
+            System.out.println("Restaurant with ID " + rId + " not found.");
+            return;
+        }
+
+        System.out.println("Restaurant to be removed:");
+        System.out.println(existingRestaurant);
+
+        System.out.print("Are you sure you want to remove this restaurant? (y/n): ");
+        String confirmation = UserInput.getStringInput();
+
+        if (confirmation.equalsIgnoreCase("y")) {
+            // Remove the student
+            restaurantDao.deleteRestaurant(rId);
+            System.out.println("Restaurant removed successfully.");
+        } else {
+            System.out.println("Removal operation canceled.");
+        }
+    }
+
+    private static void updateRestaurant() {
+        displayAllRestaurants();
+        System.out.print("Enter the restaurant Name to update: ");
+        String rName = UserInput.getStringInput();
+        Restaurant existingRestaurant = restaurantDao.retrieveRestaurantByName(rName);
+        if (existingRestaurant == null) {
+            System.out.println("Rest with name " + rName + " not found.");
+            return;
+        }
+
+        System.out.println("Existing restaurant details:");
+        System.out.println(existingRestaurant);
+
+        System.out.print("Enter restaurant name: ");
+        String newRestaurantName = UserInput.getStringInput();
+
+        System.out.print("Enter restaurant address: ");
+        String newRestaurantAddress = UserInput.getStringInput();
+
+        System.out.print("Enter restaurant rate: ");
+        int newRestaurantRate = UserInput.getIntInput();
+
+        System.out.print("Enter restaurant phone number: ");
+        int newRestaurantPhoneNumber = UserInput.getIntInput();
+
+        // Update the existing student
+        existingRestaurant.setRestaurantName(newRestaurantName);
+        existingRestaurant.setRestaurantAddress(newRestaurantAddress);
+        existingRestaurant.setRestaurantRate(newRestaurantRate);
+        existingRestaurant.setPhoneNumber(newRestaurantPhoneNumber);
+
+        restaurantDao.updateRestaurant(existingRestaurant);
+        System.out.println("Restaurant updated successfully.");
     }
 
 }

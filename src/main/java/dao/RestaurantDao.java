@@ -13,6 +13,6 @@ public interface RestaurantDao {
     Restaurant retrieveRestaurantByName(String restaurants_name);
     void updateRestaurant(Restaurant restaurant);
     void deleteRestaurant(int restaurant_id);
-    Restaurant getRestauranttById(int restaurant_id);
+    Restaurant getRestaurantById(int restaurant_id);
     List<Restaurant> getAllRestaurant();
 }

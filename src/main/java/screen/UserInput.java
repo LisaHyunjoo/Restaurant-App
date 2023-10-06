@@ -20,7 +20,6 @@ public class UserInput {
                 scanner.next();  // Clear the invalid input
             }
         }
-
         return input;
     }
 
