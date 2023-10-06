@@ -31,11 +31,11 @@ public class RestaurantApp {
                 case 3:
                     getRestaurantByName();
                     break;
-                case 4:
-                    updateRestaurant();
-                    break;
+//                case 4:
+//                    updateRestaurant();
+//                    break;
                 case 5:
-                    removeRestaurant();
+//                    removeRestaurant();
                     break;
                 case 6:
                     System.out.println("Goodbye!");
@@ -62,7 +62,7 @@ public class RestaurantApp {
 
         System.out.print("Enter restaurant ID: ");
         int restaurantId = UserInput.getIntInput();// Consume newline character
-        // Check if the restaurant ID already exists
+//         Check if the restaurant ID already exists
         if (RestaurantDaoImpl.restaurantExists(restaurantId)) {
             System.out.println("Restaurant with ID " + restaurantId + " already exists.");
             return;
@@ -94,75 +94,11 @@ public class RestaurantApp {
         }
     }
 
-    private static void getRestaurantByName(){
-        displayAllRestaurants();
+    private static void getRestaurantByName() {
         System.out.print("Enter restaurant Name: ");
-        String restaurantName = UserInput.getStringInput();  //.toLowerCase()
-        Restaurant r =  restaurantDao.retrieveRestaurantByName(restaurantName);
+        String restaurantName = UserInput.getStringInput();
+        Restaurant r = restaurantDao.retrieveRestaurantByName(restaurantName);
         System.out.println(r);
     }
 
-    private static void updateRestaurant() {
-        displayMenu();
-        System.out.print("Enter the restaurant Name to update: ");
-        String restaurantName = UserInput.getStringInput();
-        // Consume newline character
-        UserInput.getStringInput();
-        Restaurant existingRestaurant = restaurantDao.retrieveRestaurantByName(restaurantName);
-        if (existingRestaurant == null) {
-            System.out.println("Rest with name " + restaurantName + " not found.");
-            return;
-        }
-
-        System.out.println("Existing restaurant details:");
-        System.out.println(existingRestaurant);
-
-        System.out.print("Enter restaurant name: ");
-        String newRestaurantName = UserInput.getStringInput();
-
-        System.out.print("Enter restaurant address: ");
-        String newRestaurantAddress = UserInput.getStringInput();
-
-        System.out.print("Enter restaurant rate: ");
-        int newRestaurantRate = UserInput.getIntInput();
-
-        System.out.print("Enter restaurant phone number: ");
-        int newRestaurantPhoneNumber = UserInput.getIntInput();
-
-
-        // Update the existing student
-        existingRestaurant.setRestaurantName(newRestaurantName);
-        existingRestaurant.setRestaurantAddress(newRestaurantAddress);
-        existingRestaurant.setRestaurantRate(newRestaurantRate);
-        existingRestaurant.setPhoneNumber(newRestaurantPhoneNumber);
-
-        restaurantDao.updateRestaurant(existingRestaurant);
-        System.out.println("Restaurant updated successfully.");
-    }
-
-    private static void removeRestaurant() {
-        System.out.print("Enter the restaurant ID to remove: ");
-        int restaurantId = UserInput.getIntInput();
-        //scanner.nextLine();  // Consume newline character
-
-        Restaurant existingRestaurant = restaurantDao.getRestauranttById(restaurantId);
-        if (existingRestaurant == null) {
-            System.out.println("Restaurant with ID " + restaurantId + " not found.");
-            return;
-        }
-
-        System.out.println("Restaurant to be removed:");
-        System.out.println(existingRestaurant);
-
-        System.out.print("Are you sure you want to remove this restaurant? (y/n): ");
-        String confirmation = UserInput.getStringInput();
-
-        if (confirmation.equalsIgnoreCase("y")) {
-            // Remove the student
-            restaurantDao.deleteRestaurant(restaurantId);
-            System.out.println("Restaurant removed successfully.");
-        } else {
-            System.out.println("Removal operation canceled.");
-        }
-    }
 }

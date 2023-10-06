@@ -14,6 +14,7 @@ public class UserInput {
             try {
                 input = scanner.nextInt();
                 validInput = true;
+                scanner.nextLine();
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input. Please enter an integer.");
                 scanner.next();  // Clear the invalid input
